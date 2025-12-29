@@ -1,0 +1,5 @@
+Dominos  4  10.00
+Uno  6  7.50
+StoneAge  5  35.00
+Jenga  5  8.99
+Waterdeep  5  40.00

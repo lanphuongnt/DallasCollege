@@ -1,0 +1,6 @@
+SevenUp bottle 16
+DrPepper can 12
+CocaCola bottle 20
+Lemonade bottle 12
+Sprite can 12
+SunTea bottle 10

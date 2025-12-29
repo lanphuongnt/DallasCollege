@@ -1,0 +1,31 @@
+// Lab18_1B
+// Phuong Nguyen
+// This program will read an array from the text file Input18_1B.txt and return the count of all numbers divisible by 3 in the array
+package lab18;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab18_1B {
+	public static void main(String[] args) throws FileNotFoundException {
+		File myFile = new File("Input18_1B.txt");
+		Scanner inputFile = new Scanner(myFile);
+		int[] arr = new int[10];
+		for (int i = 0; i < 10; i++) {
+			arr[i] = inputFile.nextInt();
+		}
+		System.out.println("The count of all numbers divisible by 3: " + countDivisibleBy3(arr, 0));
+	}
+	
+	public static int countDivisibleBy3(int[] arr, int index) {
+		if (index == arr.length) // base case - we solved all elements of the array
+			return 0;
+		else {
+			if (arr[index] % 3 == 0)
+				return 1 + countDivisibleBy3(arr, index + 1); // add 1 because arr[index] is divisible by 3 and then recursive call to the next item in the array
+			else 
+				return countDivisibleBy3(arr, index + 1); //  recursive call to the next item in the array
+		}
+	}
+}

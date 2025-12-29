@@ -1,0 +1,60 @@
+package lab21;
+
+/**
+ * Lab21_2B
+ * @author Phuong Nguyen
+ * This program will create and work with a map structure
+ */
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class Lab21_2B {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		File file = new File("Input21_2B.txt");
+		Scanner inFile = new Scanner(file);
+		TreeMap<String, Integer> map = new TreeMap<>();
+		
+		// Read data from file
+		while (inFile.hasNextLine()) {
+			String name = inFile.nextLine();
+			int score = inFile.nextInt();
+			
+			map.put(name, score);
+			
+			if (inFile.hasNextLine()) {
+				inFile.nextLine();
+			}
+		}
+		
+		// Print the map
+		System.out.println("The map:");
+		for (String key : map.keySet()) {
+			System.out.println( key + ": " + map.get(key));
+		}
+		
+		// Ask the user input
+		Scanner scan = new Scanner(System.in);
+		System.out.print("- Enter a name: ");
+		String name = scan.nextLine();
+		if (map.containsKey(name)) {
+			System.out.println("The name is in the map");
+		}
+		else {
+			System.out.println("The name isn't in the map");
+		}
+		System.out.print("- Enter a score: ");
+		int score = scan.nextInt();
+		int count = 0;
+		for (Integer value : map.values()) {
+			if (value >= score) {
+				count++;
+			}
+		}
+		System.out.println("The number of teams made this score or higher: " + count);
+	}
+
+}

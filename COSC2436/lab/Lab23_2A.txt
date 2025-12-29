@@ -1,0 +1,67 @@
+package lab23;
+
+/**
+ * Lab23_2A
+ * @author Phuong Nguyen
+ * This program will sort the array of students by GPA using insertion sort
+ */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab23_2A {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		Student[] students = new Student[12];
+		File file = new File("Input23_2A.txt");
+		Scanner inFile = new Scanner(file);
+		
+		// Read students from file
+		for (int i = 0; i < students.length; i++) {
+			String name;
+			double gpa;
+			name = inFile.next();
+			name += " " + inFile.next();
+			gpa = inFile.nextDouble();
+			students[i] = new Student(name, gpa);
+		}
+		// Sort
+		insertionSort(students);
+		// Print array
+		System.out.println("Array of students:");
+		for (int i = 0; i < students.length; i++) {
+			System.out.println(students[i]);
+		}
+	}
+	
+	public static void insertionSort(Student[] students) {
+		for (int i = 1; i < students.length; i++) {
+			Student current = students[i];
+			int k;
+			for (k = i - 1; k >= 0 && students[k].getGPA() > current.getGPA(); k--) {
+				students[k + 1] = students[k]; 
+			}
+			students[k + 1] = current; 
+		}
+	}
+}
+
+// Student class
+
+public class Student {
+	private String name;
+	private double gpa;
+	
+	public Student(String _name, double _gpa) {
+		name = _name;
+		gpa = _gpa;
+	}
+	
+	public double getGPA() {
+		return gpa;
+	}
+	
+	public String toString() {
+		return "Name: " + name + "\tGPA: " + String.format("%.2f", gpa);
+	}
+}

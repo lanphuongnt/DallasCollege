@@ -1,0 +1,68 @@
+package lab20;
+
+/**
+ * Lab20_1A
+ * @author Phuong Nguyen
+ * This program will use some functions of ArrayList
+ */
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Random;
+
+public class Lab20_1A {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> list = new ArrayList<>();
+		Random rand = new Random();        
+        for (int i = 0; i < 20; i++)
+            list.add(rand.nextInt(101));
+        
+        workWithArrayList(list);
+        System.out.println("The average value: " + calculateAverage(list));
+        Collections.sort(list);
+        System.out.print("Sorted list: ");
+        list.forEach(i -> System.out.print(i + " "));
+	}
+	
+	public static void workWithArrayList(ArrayList<Integer> list) {
+		// Print the original list using forEach
+		System.out.print("The original list: ");
+		list.forEach(i -> System.out.print(i + " "));
+		System.out.println();
+		
+		// Copy the original list
+		ArrayList<Integer> list1 = (ArrayList<Integer>) list.clone();
+		
+		// Create new ArrayList
+		ArrayList<Integer> list2 = new ArrayList<Integer>(Arrays.asList(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
+		
+		if (list1.contains(45)) {
+			System.out.println("list1 contains 45");
+		}
+		else {
+			System.out.println("list1 doesn't contain 45");
+		}
+		
+		list1.removeAll(list2);
+		
+		// Print list1 after removing items from list2
+		System.out.print("List1 after removing the items from list2: ");
+		list1.forEach(i -> System.out.print(i + " "));
+		System.out.println();
+	}
+	
+	public static int calculateAverage(ArrayList<Integer> list) {
+		Iterator i = list.listIterator();
+		int average, total = 0;
+		
+		while (i.hasNext()) {
+			total += (int) i.next();
+		}
+		average = total / list.size();
+		return average;
+	}
+
+}

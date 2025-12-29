@@ -1,0 +1,56 @@
+package lab19;
+
+/**
+ * Lab19_2A
+ * @author Phuong Nguyen
+ * This program will make use of generic methods
+ */
+
+public class Lab19_2A {
+
+	public static void main(String[] args) {
+		String[] strings = {"hello", "everyone", "my", "name", "is", "phuong"};
+		Double[] doubles = {10.07, 25.08, 23.08, 8.09, 25.12};
+		
+		System.out.print("Array of strings: ");
+		printList(strings);
+		System.out.println("The largest item in the array of strings: " + getLargest(strings));
+		
+		System.out.println("The smallest item in the array of strings: " + getSmallest(strings));
+		
+		System.out.println("----");
+		
+		System.out.print("Array of doubles: ");
+		printList(doubles);
+		System.out.println("The largest item in the array of doubles: " + getLargest(doubles));
+		System.out.println("The smallest item in the array of doubles: " + getSmallest(doubles));
+
+		
+		
+	}
+	public static <E> void printList(E[] arr) {
+		for (int i = 0; i < arr.length - 1; i++) {
+			System.out.print(arr[i] + "-");
+		}
+		System.out.println(arr[arr.length - 1]);
+	}
+	public static <E extends Comparable<E>> E getLargest(E[] arr) {
+		E largest = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i].compareTo(largest) > 0) { // if arr[i] > largest
+				largest = arr[i];
+			}
+		}
+		return largest;
+	}
+	
+	public static <E extends Comparable<E>> E getSmallest (E[] arr) {
+		E smallest = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i].compareTo(smallest) < 0) {
+				smallest = arr[i];
+			}
+		}
+		return smallest;
+	}
+}

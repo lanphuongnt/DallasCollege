@@ -1,0 +1,160 @@
+package lab25b;
+
+/**
+ * Lab25B
+ * @author Phuong Nguyen
+ * This program will create a BinarySearchTree tree of string values and use the methods to fill and print it
+ */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab25B {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		BinarySearchTree bst = new BinarySearchTree();
+		File file = new File("Input25_1B.txt");
+		Scanner inFile = new Scanner(file);
+		// Read value from file and insert to the tree
+		while (inFile.hasNext()) {
+			bst.insert(inFile.next());
+		}
+		// Print size
+		System.out.println("Tree size: " + bst.getSize());
+		// Print the tree with inorder, postorder and preorder
+		System.out.print("Inorder: ");
+		bst.inorder();
+		System.out.println();
+		System.out.print("Postorder: ");
+		bst.postorder();
+		System.out.println();
+		System.out.print("Preorder: ");
+		bst.preorder();
+	}
+}
+
+// --------------  TreeItem class -----------------------
+public class TreeItem {
+	private String value;
+	TreeItem left;
+	TreeItem right;
+
+	public TreeItem(String _value) {
+		value = _value;
+		left = null;
+		right = null;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public String toString() {
+		return "TreeItem - Value: " + value;
+	}
+}
+
+// -------------- BinarySearchTree class ---------------
+
+public class BinarySearchTree {
+	TreeItem root;
+	private int size;
+	BinarySearchTree(){
+		root = null;
+		size = 0;
+	}
+	public int getSize() {
+		return size;
+	}
+	public boolean insert(String value) {
+		if (root == null) {
+			root = new TreeItem(value);
+		}
+		else {
+			TreeItem current = root;
+			TreeItem parent = null;
+			while (current != null) {
+				if (value.compareTo(current.getValue()) < 0) {
+					parent = current;
+					current = current.left;
+				}
+				else if (value.compareTo(current.getValue()) > 0) {
+					parent = current;
+					current = current.right;
+				}
+				else {
+					return false; // this value already exists
+				}
+			}
+			// Create new node and attach it to the parent node
+			if (value.compareTo(parent.getValue()) < 0) {
+				parent.left = new TreeItem(value);
+			}
+			else {
+				parent.right = new TreeItem(value);
+			}
+		}
+		size++;
+		return true; // Value inserted
+	}
+	public boolean search(String value) {
+		TreeItem current = root;
+		while (current != null) {
+			if (value.compareTo(current.getValue()) < 0) {
+				current = current.left;
+			}
+			else if (value.compareTo(current.getValue()) > 0) {
+				current = current.right;
+			}
+			else 
+				return true; // Item found
+		}
+		return false; // Item not found
+	}
+
+	/** Inorder traversal from the root */
+	public void inorder() {
+		inorder(root);
+	}
+
+	/** Inorder traversal from a subtree */
+	protected void inorder(TreeItem root) {
+		if (root == null)
+			return;
+		inorder(root.left);
+		System.out.print(root.getValue() + " ");
+		inorder(root.right);
+	}
+
+	/** Postorder traversal from the root */
+	public void postorder() {
+		postorder(root);
+	}
+
+	/** Postorder traversal from a subtree */
+	protected void postorder(TreeItem root) {
+		if (root == null)
+			return;
+		postorder(root.left);
+		postorder(root.right);
+		System.out.print(root.getValue() + " ");
+	}
+
+	/** Preorder traversal from the root */
+	public void preorder() {
+		preorder(root);
+	}
+
+	/** Preorder traversal from a subtree */
+	protected void preorder(TreeItem root) {
+		if (root == null)
+			return;
+		System.out.print(root.getValue() + " ");
+		preorder(root.left);
+		preorder(root.right);
+	}
+
+}
+
+
+

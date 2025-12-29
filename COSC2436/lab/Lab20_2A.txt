@@ -1,0 +1,65 @@
+package lab20;
+
+/**
+ * Lab20_2A
+ * @author Phuong Nguyen
+ * This program will sort the arraylist using Collections.sort and custom comparator.
+ */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
+
+public class Lab20_2A {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> list = new ArrayList<>();
+		Random rand = new Random();
+		for (int i = 0; i < 20; i++) {
+			list.add(rand.nextInt(101));
+		}
+		// Print original list
+		System.out.print("Original: ");
+		printArrayList(list);
+		
+		// Print sorted list
+		Collections.sort(list);
+		System.out.print("Sorted: ");
+		printArrayList(list);
+		
+		// Print comparator sorted list
+		
+		Collections.sort(list, new MyComparator());
+		System.out.print("Comparator sorted: ");
+		printArrayList(list);
+	}
+	
+	public static void printArrayList(ArrayList<Integer> list) {
+		ListIterator<Integer> it = list.listIterator();
+		while (it.hasNext()) {
+			System.out.print(it.next() + " ");
+		}
+		System.out.println();
+	}
+}
+
+// MyComparator class
+class MyComparator implements Comparator<Integer>{
+	@Override
+	public int compare(Integer i1, Integer i2) {
+		if (i1 % 10 > i2 % 10) {
+			return 1;
+		}
+		else if (i1 % 10 < i2 % 10) {
+			return -1;
+		}
+		else {
+			if (i1 > i2) return 1;
+			else if (i1 < i2) return -1;
+			else return 0;
+		}
+	}
+}

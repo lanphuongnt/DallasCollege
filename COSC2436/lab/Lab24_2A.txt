@@ -1,0 +1,122 @@
+package lab24_2;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+/**
+ * Lab24_2A
+ * @author Phuong Nguyen
+ * This program will create a queue of cars
+ */
+public class Lab24_2A {
+	public static void main(String[] args) throws FileNotFoundException {
+		MyQueue<Cars> queue = new MyQueue<>();
+		File file = new File("Input24_2A.txt");
+		Scanner inFile = new Scanner(file);
+		
+		while (inFile.hasNext()) {
+			String make = inFile.next();
+			String model = inFile.next();
+			int year = inFile.nextInt();
+			queue.enqueue(new Cars(make, model, year));
+		}
+		
+		System.out.println("Queue of cars:\n" + queue);
+		System.out.println("The first object in queue: " + queue.dequeue());
+		System.out.println("The second object in queue: " + queue.dequeue());
+		System.out.println("The third object in queue: " + queue.dequeue());
+		System.out.println();
+		System.out.println("The remaining queue:\n" + queue);
+	}
+}
+
+// ========== Cars class ============
+
+public class Cars {
+	private String make;
+	private String model;
+	private int year;
+	
+	public Cars(String _make, String _model, int _year) {
+		make = _make;
+		model = _model;
+		year = _year;
+	}
+	
+	public int getYear() {
+		return year;
+	}
+	public String getMake() {
+		return make;
+	}
+	public String toString() {
+		return "Cars - Make: " + make + "\tModel: " + model + "\tYear: " + year;
+	}
+}
+
+// ========= MyQueueNode class =======
+
+public class MyQueueNode <E> {
+	public E value;
+	public MyQueueNode<E> next;
+	
+	public MyQueueNode(E _value) {
+		value = _value;
+		next = null;
+	}
+}
+
+// ========== MyQueue class ==============
+public class MyQueue <E> {
+	private MyQueueNode<E> head;
+	private MyQueueNode<E> tail;
+	private int size;
+	
+	public MyQueue() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+	public int getSize() {
+		return size;
+	}
+	public boolean isEmpty() {
+		return (size == 0);
+	}
+	public void enqueue(E value) { // addLast
+		if (tail == null) { // size of queue is 0
+			head = new MyQueueNode<>(value);
+			tail = head;
+		}
+		else {
+			tail.next = new MyQueueNode<>(value);
+			tail = tail.next;
+		}
+		size++;
+	}
+	public E dequeue() { // removeFirst
+		if (size == 0) {
+			return null;
+		}
+		else {
+			MyQueueNode<E> temp = head;
+			head = head.next;
+			size--;
+			if (head == null) {
+				tail = null;
+			}
+			return temp.value;
+		}
+	}
+	public String toString() {
+		String str = "";
+		MyQueueNode<E> current = head;
+		while (current != null) {
+			str += current.value + "\n";
+			current = current.next;
+		}
+		return str;
+	}
+}
+

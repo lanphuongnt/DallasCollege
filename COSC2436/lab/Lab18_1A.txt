@@ -1,0 +1,27 @@
+// Lab18_1A
+// Phuong Nguyen
+// This program will return the sum of the sum of the even numbers less than or equal to an interger 
+package lab18;
+
+import java.util.Scanner;
+
+public class Lab18_1A {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter an integer: ");
+		int num = scanner.nextInt();
+		System.out.println("Sum of even numbers: " + sumOfEven(num)); // call method with num
+	}
+	
+	public static int sumOfEven(int num) {
+		if (num == 0) { // base case - stopping at 0
+			return 0;
+		}
+		if (num % 2 == 0) { // num is even
+			return num + sumOfEven(num - 1); // recursive call to the next number
+		}
+		else { // num is odd
+			return sumOfEven(num - 1); // recursive call to the next number
+		}
+	}
+}

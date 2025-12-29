@@ -1,0 +1,4 @@
+beautiful  carnation
+rose  chrysanthemum  lily
+amaryllis  azalea
+buttercup

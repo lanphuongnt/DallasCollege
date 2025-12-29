@@ -1,0 +1,54 @@
+package lab10;
+
+/**
+ * Lab10_1A
+ * @author Phuong Nguyen
+ * This program will work with Exception using try-catch
+ */
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Lab10_1A {
+
+	public static void main(String[] args){
+		int[] arr = new int[30];
+		// Set all the elements of the array equal to 0
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = 0;
+		}
+
+		// Ask user the input file name
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter the filename: ");
+		String filename = scanner.next();
+		int total = 0;
+		try {
+			File file = new File(filename);
+			Scanner inFile = new Scanner(file);
+			int index = 0;
+			while (inFile.hasNext()) {
+				arr[index] = inFile.nextInt();
+				total += arr[index];
+				index++;
+			}
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("Error: The file " + filename + " is not found");
+			assert(false);
+		}
+		catch (InputMismatchException e) {
+			System.out.println("Error: The input is not an integer");
+		}
+		System.out.print("The array: ");
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+		System.out.println("Total: " + total);
+
+	}
+
+}

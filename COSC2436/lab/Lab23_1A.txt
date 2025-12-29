@@ -1,0 +1,132 @@
+package lab23;
+
+/**
+ * Lab23_1A
+ * @author Phuong Nguyen
+ * This program will work with 3 different sort algorithms : Selection sort, Bubble sort, Merge sort
+ */
+
+import java.util.Random;
+
+public class Lab23_1A {
+
+	public static void main(String[] args) {
+		int[] array1 = new int[200];
+		int[] array2 = new int[200];
+		int[] array3 = new int[200];
+		// Fill 3 arrays
+		fillArray(array1);
+		fillArray(array2);
+		fillArray(array3);
+		
+		long startTime, endTime;
+		// Selection Sort
+		startTime = System.nanoTime();
+		selectionSort(array1);
+		endTime = System.nanoTime();
+		System.out.println("Time using Selection Sort: " + String.format("%,d", endTime - startTime) + " nano seconds\n");
+		
+		// Bubble Sort
+		startTime = System.nanoTime();
+		bubbleSort(array2);
+		endTime = System.nanoTime();
+		System.out.println("Time using Bubble Sort: " + String.format("%,d", endTime - startTime) + " nano seconds\n");
+		
+		// Merge Sort
+		startTime = System.nanoTime();
+		mergeSort(array3);
+		endTime = System.nanoTime();
+		System.out.println("Time using Merge Sort: " + String.format("%,d", endTime - startTime) + " nano seconds");
+		
+		// Print the third array
+		System.out.print("Merge sort: ");
+		for (int i : array3) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	public static void fillArray(int[] arr) {
+		Random rand = new Random();
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = rand.nextInt(501);
+		}
+	}
+	
+	public static void selectionSort(int[] arr) {
+		int smallest, index, temp;
+		int len = arr.length;
+		for (int i = 0; i < len - 1; i++) {
+			smallest = arr[i];
+			index = i;
+			for (int k = i + 1; k < len; k++) {
+				if (arr[k] < smallest) {
+					smallest = arr[k];
+					index = k;
+				}
+			}
+
+			temp = arr[i];
+			arr[i] = arr[index];
+			arr[index] = temp;
+		}
+		
+		System.out.print("Selection sort: ");
+		for (int i : arr) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	public static void bubbleSort(int[] arr) {
+		boolean needNextPass = true;
+		for (int k = 1; k < arr.length && needNextPass; k++) {
+			needNextPass = false;
+			for (int i = 0; i < arr.length - k; i++) {
+				if (arr[i] > arr[i + 1]) {
+					// Swap arr[i] with arr[i + 1]
+					int temp = arr[i];
+					arr[i] = arr[i + 1];
+					arr[i + 1] = temp;
+					
+					needNextPass = true; // Next pass still needed
+				}
+			}
+		}
+		
+		System.out.print("Bubble sort: ");
+		for (int i : arr) {
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	public static void mergeSort(int[] arr) {
+		if (arr.length > 1) {
+			// Merge sort the fisrt half
+			int[] firstHalf = new int[arr.length / 2];
+			System.arraycopy(arr, 0, firstHalf, 0, firstHalf.length);
+			mergeSort(firstHalf);
+			
+			// Merge sort the second half
+			int[] secondHalf = new int[arr.length - arr.length / 2];
+			System.arraycopy(arr, firstHalf.length, secondHalf, 0, secondHalf.length);
+			mergeSort(secondHalf);
+			
+			// Merge the firstHalf with secondHalf
+			int current1 = 0; // firstHalf
+			int current2 = 0; // secondHalf
+			int current3 = 0; // arr
+			
+			while (current1 < firstHalf.length && current2 < secondHalf.length) {
+				if (firstHalf[current1] < secondHalf[current2]) 
+					arr[current3++] = firstHalf[current1++];
+				else 
+					arr[current3++] = secondHalf[current2++];
+			}
+			while (current1 < firstHalf.length)
+				arr[current3++] = firstHalf[current1++];
+			
+			while (current2 < secondHalf.length)
+				arr[current3++] = secondHalf[current2++];
+		}
+	}
+}

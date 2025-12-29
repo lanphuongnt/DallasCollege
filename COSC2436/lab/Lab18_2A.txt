@@ -1,0 +1,40 @@
+package lab18;
+/**
+ * Lab18_2A
+ * @author Phuong Nguyen
+ * This program will receive a string and print the vowels all on the same line separated by spaces.
+*/
+
+import java.util.Scanner;
+
+public class Lab18_2A {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter a string: ");
+		String s = scanner.nextLine();
+		System.out.print("Vowels: ");
+		int count = countVowels(s, 0); // call the method with string s and start from 0
+		System.out.println();
+		System.out.print("Count: " + count);
+	}
+	
+	public static int countVowels(String str, int index) {
+		if (index == str.length()) { // base case - stop at the end of the string
+			return 0;
+		}
+		else {
+			if (str.charAt(index) == 'a' || 
+					str.charAt(index) == 'e' ||
+					str.charAt(index) == 'o' ||
+					str.charAt(index) == 'u' || 
+					str.charAt(index) == 'i') {
+				System.out.print(str.charAt(index) + " ");
+				return 1 + countVowels(str, index + 1); // recursive call to the next character of string and 
+														// add 1 because this character is an vowel
+			}
+			else {
+				return countVowels(str, index + 1); // recursive call to the next character of string
+			}
+		}
+	}
+}

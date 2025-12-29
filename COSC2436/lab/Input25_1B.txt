@@ -1,0 +1,13 @@
+pink
+lime
+white
+black
+brown
+magenta
+red
+green
+blue
+yellow
+orange
+purple
+indigo

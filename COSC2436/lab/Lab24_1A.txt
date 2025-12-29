@@ -1,0 +1,104 @@
+package lab24;
+
+/**
+ * Lab24_1A
+ * @author Phuong Nguyen
+ * This program will make a linked list of names.
+ */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab24_1A {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		MyLinkedList1<String> list = new MyLinkedList1<>();
+		File file = new File("Input24_1A.txt");
+		Scanner inFile = new Scanner(file);
+		while (inFile.hasNext()) {
+			list.addLast(inFile.next()); // read name from file and add to the last of linked list
+		}
+		// Print the linked list using toString
+		System.out.println("Linked list: " + list);
+		
+		// Ask user a name
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Enter a name: ");
+		String input = scan.nextLine();
+		
+		// Check if the linked list contains the name
+		if (list.contains(input)) {
+			System.out.println("The linked list contains " + input);
+		}
+		else {
+			System.out.println("The linked list does not contain " + input);
+		}
+	}
+}
+
+// ===== MyLinkedNode1 class =====
+public class MyLinkedNode1 <E> {
+	public E name;
+	public MyLinkedNode1<E> next;
+	public MyLinkedNode1 (E _name) {
+		name = _name;
+		next = null;
+	}	
+}
+
+
+// ==== MyLinkedList1 class ====
+public class MyLinkedList1 <E extends Comparable<E>> {
+	private MyLinkedNode1<E> head;
+	private MyLinkedNode1<E> tail;
+	private int size;
+	
+	public MyLinkedList1() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+	
+	public void addLast(E value) {
+		if (tail == null) { // size of linked list is 0
+			head = new MyLinkedNode1<>(value);
+			tail = head;
+		}
+		else {
+			tail.next = new MyLinkedNode1<>(value);
+			tail = tail.next;
+		}
+		size++;
+	}
+	
+	public E getFirst() {
+		return head.name;
+	}
+	
+	public E getLast() {
+		return tail.name;
+	}
+	
+	public String toString() {
+		String str = "";
+		MyLinkedNode1<E> current = head;
+		while (current != null) {
+			str += current.name + " ";
+			current = current.next;
+		}
+		return str;
+	}
+	
+	public boolean contains(E value) {
+		MyLinkedNode1<E> current = head;
+		while (current != null) {
+			if (value.compareTo(current.name) == 0) {
+				return true;
+			}
+			else {
+				current = current.next;				
+			}
+		}
+		return false;
+	}
+}

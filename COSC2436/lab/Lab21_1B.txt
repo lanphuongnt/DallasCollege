@@ -1,0 +1,96 @@
+package lab21;
+
+
+/**
+ * Lab21_1B
+ * @author Phuong Nguyen
+ * This program will create a treeset of house objects and calculate the average house size
+ */
+
+import java.io.*;
+import java.util.*;
+
+public class Lab21_1B {
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		File file = new File("Input21_1B.txt");
+		Scanner inFile = new Scanner(file);
+		// create the treeset with MyComparator
+		TreeSet<House> houses = new TreeSet<>(new MyComparator());
+		
+		// Read houses from file
+		while (inFile.hasNext()) {
+			String address = inFile.nextLine();
+			int bedrooms = inFile.nextInt();
+			int sf = inFile.nextInt();
+			houses.add(new House(address, bedrooms, sf));
+			
+			if (inFile.hasNextLine()) {
+				inFile.nextLine();
+			}
+		}
+		
+		// Print a set of houses using iterator
+		Iterator<House> it = houses.iterator();
+		System.out.println("-- TreeSet of Houses --");
+		while (it.hasNext()) {
+			System.out.println(it.next());
+		}
+		
+		System.out.println("The average house size: " + String.format("%.2f", calcAverage(houses)));
+	}
+	
+	public static double calcAverage(TreeSet<House> houses) {
+		double average;
+		double total = 0;
+		Iterator<House> it = houses.iterator();
+		while (it.hasNext()) {
+			total += it.next().getSquareFootage();
+		}
+		average = total / houses.size();
+		return average;
+	}
+
+}
+
+// ---------------------------------------------
+// House class
+
+public class House {
+	private String address;
+	private int bedrooms;
+	private int squareFootage;
+	
+	public House (String _address, int _bedrooms, int _squareFootage) {
+		address = _address;
+		bedrooms = _bedrooms;
+		squareFootage = _squareFootage;
+	}
+	
+	public int getSquareFootage() {
+		return squareFootage;
+	}
+	public String toString() {
+		return "House - Address: " + address + "\tBedrooms: " + bedrooms + "\tSquare Footage: " + squareFootage;
+	}
+}
+
+// -------------------------------------------
+// MyComparator class
+
+import java.util.*;
+
+public class MyComparator implements Comparator<House> {
+	@Override
+	public int compare(House h1, House h2) {
+		if (h1.getSquareFootage() > h2.getSquareFootage()) {
+			return 5;
+		}
+		else if (h1.getSquareFootage() < h2.getSquareFootage()) {
+			return -5;
+		}
+		else {
+			return 0;
+		}
+	}
+}

@@ -1,0 +1,58 @@
+package lab18;
+/**
+ * Lab18_2B
+ * @author Phuong Nguyen
+ * This program will receive an array of strings from a file, and then print the whole array and print strings which starts with 'b' using recursive method. 
+*/
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab18_2B {
+	public static void main(String[] args) throws FileNotFoundException {
+		File myFile = new File("Input18_2B.txt");
+		Scanner input = new Scanner(myFile);
+		
+		String[] strs = new String[11];
+		// Read an array of strings from file
+		for (int i = 0; i < 11; i++) {
+			strs[i] = input.next();
+		}
+		
+		System.out.print("Whole array: ");
+		printArray(strs, 0); // call the method that prints the whole array
+		
+		System.out.println();
+		
+		System.out.print("Strings start with b: ");
+		int count = countStringStartsWithb(strs, 0);
+		System.out.println();
+		System.out.println("Count: " + count);
+	}
+	
+	public static void printArray(String[] arr, int index) {
+		if (index == arr.length) { // base case - stop at the end of the array
+			return; 
+		}
+		else {
+			System.out.print(arr[index] + " ");
+			printArray(arr, index + 1); // recursive call to the next string in the array
+		}
+	}
+	
+	public static int countStringStartsWithb(String[] arr, int index) {
+		if (index == arr.length) { // base case - stop at the end of the array
+			return 0;
+		}
+		else {
+			if (arr[index].startsWith("b")) {
+				System.out.print(arr[index] + " ");
+				return 1 + countStringStartsWithb(arr, index + 1); // recursive call to the next string and add 1 because this string starts with 'b'
+			}
+			else {
+				return countStringStartsWithb(arr, index + 1); // recursive call to the next string
+			}
+		}
+	}
+}

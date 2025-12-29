@@ -1,0 +1,84 @@
+package lab19;
+/**
+ * Lab19_2B
+ * @author Phuong Nguyen
+ * This program will get information of 5 items in a file, then print the array of items and calculate the minimum price per unit
+ */
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab19_2B {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		Item[] items = new Item[5];
+		File file = new File("Input19_2B.txt");
+		Scanner inFile = new Scanner(file);
+		// This loop is to read the amount with double value
+		for (int i = 0; i < 3; i++) {
+			String name = inFile.nextLine();
+			String unit = inFile.next();
+			Double amount = inFile.nextDouble();
+			double price = inFile.nextDouble();
+			items[i] = new Item<Double>(name, unit, amount, price);
+			if (inFile.hasNextLine()) inFile.nextLine(); // ignore the line of price
+		}
+		
+		// This loop is to read the amount with integer value
+		for (int i = 3; i < 5; i++) {
+			String name = inFile.nextLine();
+			String unit = inFile.next();
+			Integer amount = inFile.nextInt();
+			double price = inFile.nextDouble();
+			items[i] = new Item<Integer>(name, unit, amount, price);
+			if (inFile.hasNextLine()) inFile.nextLine(); // ignore the line of price
+		}
+		
+		// Print the array
+		System.out.println("-- Array of Items --");
+		for (int i = 0; i < items.length; i++) {
+			System.out.println(items[i]);
+		}
+		
+		// Calc the minimum price per unit
+		System.out.println("The minimum price per unit: " + String.format("%.2f", getMinimum(items)));
+		
+	}
+	public static double getMinimum(Item[] items) {
+		double minimum = items[0].getPricePerUnit();
+		
+		for (int i = 1; i < items.length; i++) {
+			double temp = items[i].getPricePerUnit();
+			if (minimum > temp) {
+				minimum = temp;
+			}
+		}
+		return minimum;
+	}
+}
+
+// class Item
+class Item <E extends Number> {
+	private String name;
+	private String unit;
+	private E amount;
+	private double price;
+	private double pricePerUnit;
+	
+	public Item(String _name, String _unit, E _amount, double _price) {
+		name = _name;
+		unit = _unit;
+		amount = _amount;
+		price = _price;
+		pricePerUnit = price / amount.doubleValue(); // use amount.doubleValue() because the amount variable is generic 
+	}
+	
+	public double getPricePerUnit() {
+		return pricePerUnit;
+	}
+	
+	public String toString() {
+		return "Item - Name: " + name + "\tUnit: " + unit + "\tAmount: " + amount + "\tPrice: " + String.format("%.2f", price) + "\tPrice per unit: " + String.format("%.2f", pricePerUnit);
+	}
+}

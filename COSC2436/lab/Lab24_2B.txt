@@ -1,0 +1,119 @@
+package lab24_2;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+/**
+ * Lab24_2B
+ * @author Phuong Nguyen
+ * This program will create a stack of drinks
+ */
+public class Lab24_2B {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		MyStack<Drinks> stack = new MyStack<>();
+		File file = new File("Input24_2B.txt");
+		Scanner inFile = new Scanner(file);
+		
+		while (inFile.hasNext()) {
+			String name = inFile.next();
+			String type = inFile.next();
+			int size = inFile.nextInt();
+			stack.push(new Drinks(name, type, size));
+		}
+		
+		System.out.println("Stack of drinks:\n" + stack);
+		System.out.println("The first object in stack: " + stack.pop());
+		System.out.println("The second object in stack: " + stack.pop());
+	
+	}
+}
+
+// ========= Drinks class ===========
+public class Drinks {
+	private String name;
+	private String containerType;
+	private int size;
+	
+	public Drinks(String _name, String _type, int _size) {
+		name = _name;
+		containerType = _type;
+		size = _size;
+	}
+	
+	public String toString() {
+		return "Drinks - Name: " + name + "\tContainer Type: " + containerType + "\tSize: " + size;
+	}
+}
+
+// ========= MyStackNode class ===========
+
+public class MyStackNode <E> {
+	private E value;
+	public MyStackNode<E> next;
+	public MyStackNode(E _value) {
+		value = _value;
+		next = null;
+	}
+	public E getValue() {
+		return value;
+	}
+}
+
+// ======= MyStack class ==========
+
+public class MyStack <E> {
+	private MyStackNode<E> top;
+	private int size;
+	public MyStack() {
+		top = null;
+		size = 0;
+	}
+	public int getSize() {
+		return size;
+	}
+	public boolean isEmpty() {
+		return (size == 0);
+	}
+
+	public void push(E value) { // addFirst
+		MyStackNode<E> newNode = new MyStackNode<>(value);
+		newNode.next = top;
+		top = newNode;
+		size++;
+	}
+	
+	public E peek() { // getFirst
+		if (size == 0) {
+			return null;
+		}
+		else {
+			return top.getValue();
+		}
+	}
+	
+	public E pop() { // removeFirst
+		if (size == 0) {
+			return null;
+		}
+		else {
+			MyStackNode<E> temp = top;
+			top = top.next;
+			size--;
+			return temp.getValue();
+		}
+	}
+	
+	public String toString() {
+		String str = "";
+		MyStackNode<E> current = top;
+		while (current != null) {
+			str += current.getValue() + "\n";
+			current = current.next;
+		}
+		return str;
+	}
+}
+
+

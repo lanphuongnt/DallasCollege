@@ -1,0 +1,153 @@
+package lab25_2;
+
+/**
+ * Lab25_2A
+ * @author Phuong Nguyen
+ * This program will find the lowest cost and highest cost by using Binary search tree, and print the tree using inorder algorithm 
+ */
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab25_2A {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		BinarySearchTree bst = new BinarySearchTree();
+		File file = new File("Input25_2A.txt");
+		Scanner inFile = new Scanner(file);
+		
+		// Read grocery items from file and insert to the tree
+		while (inFile.hasNext()) {
+			String name = inFile.nextLine();
+			double cost = inFile.nextDouble();
+			
+			bst.insert(new GroceryItem(name, cost));
+			
+			if (inFile.hasNextLine()) {
+				inFile.nextLine();
+			}
+		}
+		// Call 3 methods
+		System.out.println("The lowest cost: " + bst.getLowestCost());
+		System.out.println("The highest cost: " + bst.getHighestCost());
+		System.out.println("Inorder traversal: ");
+		bst.inorder();
+	}
+
+}
+
+// -------------- GrocecyItem class ----------------
+public class GroceryItem {
+	private String name;
+	private double cost;
+	public GroceryItem(String _name, double _cost) {
+		name = _name;
+		cost = _cost;
+	}
+	public String getName() {
+		return name;
+	}
+	public double getCost() {
+		return cost;
+	}
+	public String toString() {
+		return "Name: " + name + ", Cost: " + String.format("%.2f", cost);
+	}
+}
+
+// ----------------- TreeItem class --------------------
+public class TreeItem {
+	private GroceryItem value;
+	TreeItem left;
+	TreeItem right;
+	
+	public TreeItem (GroceryItem _value) {
+		value = _value;
+		left = null;
+		right = null;
+	}
+	
+	public GroceryItem getValue() {
+		return value;
+	}
+	
+	public String toString() {
+		return "TreeItem - " + value;
+	}
+}
+
+// ------------------ BinarySearchTree class -----------------
+public class BinarySearchTree {
+	private TreeItem root;
+	public BinarySearchTree() {
+		root = null;
+	}
+	public boolean insert(GroceryItem value) {
+		if (root == null)
+			root = new TreeItem(value);
+		else {
+			// Locate the parent node
+			TreeItem current = root;
+			TreeItem parent = null;
+			while (current != null) {
+				if (value.getCost() < current.getValue().getCost()) {
+					parent = current;
+					current = current.left;
+				} else if (value.getCost() > current.getValue().getCost()) {
+					parent = current;
+					current = current.right;
+				} else
+					return false; // Duplicate node not inserted
+			} // end-while
+			// Create the new node and attach it to the parent node
+			if (value.getCost() < parent.getValue().getCost())
+				parent.left = new TreeItem(value);
+			else
+				parent.right = new TreeItem(value);
+		} // end-else
+		return true; // Element inserted
+	}
+	
+	public GroceryItem getLowestCost() {
+		if (root == null) {
+			return null;
+		}
+		else {
+			TreeItem parent = null;
+			TreeItem current = root;
+			while (current != null) {
+				parent = current;
+				current = current.left;
+			}
+			return parent.getValue();
+		}
+	}
+	public GroceryItem getHighestCost() {
+		if (root == null) {
+			return null;
+		}
+		else {
+			TreeItem parent = null;
+			TreeItem current = root;
+			while (current != null) {
+				parent = current;
+				current = current.right;
+			}
+			return parent.getValue();
+		}
+	}
+	
+	public void inorder() {
+		inorder(root);
+	}
+	
+	public void inorder(TreeItem root) {
+		if (root == null)
+			return;
+		inorder(root.left);
+		System.out.println(root.getValue());
+		inorder(root.right);
+	}
+}
+

@@ -1,0 +1,6 @@
+dice  30
+cookies 50
+balls 20
+books 15
+needles 42
+yo-yos 35

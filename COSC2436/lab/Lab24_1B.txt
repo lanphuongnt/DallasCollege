@@ -1,0 +1,94 @@
+package lab24;
+
+/**
+ * Lab24_1B
+ * @author Phuong Nguyen
+ * This program will create a linked list of elements
+ */
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Lab24_1B {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		MyLinkedList2<Integer> list = new MyLinkedList2<>();
+		File file = new File("Input24_1B.txt");
+		Scanner inFile = new Scanner(file);
+		while (inFile.hasNext()) {
+			list.addLast(inFile.nextInt()); // read element from file and add to the last of linked list
+		}
+		
+		// Print the linked list
+		System.out.println("Linked list: " + list);
+		// Find the largest element
+		System.out.println("The largest element is " + list.getLargest());
+	}
+
+}
+
+// ==== MyLinkedNode2 ====
+public class MyLinkedNode2 <E> {
+	public E element;
+	public MyLinkedNode2<E> next;
+	public MyLinkedNode2(E _element) {
+		element = _element;
+		next = null;
+	}
+}
+
+// ==== MyLinkedList2 ====
+public class MyLinkedList2 <E extends Comparable<E>>{
+	private MyLinkedNode2<E> head;
+	private MyLinkedNode2<E> tail;
+	private int size;
+	
+	public MyLinkedList2() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+	
+	public void addLast(E value) {
+		if (tail == null) { // size of linked list is 0
+			head = new MyLinkedNode2<>(value);
+			tail = head;
+		}
+		else {
+			tail.next = new MyLinkedNode2<>(value);
+			tail = tail.next;
+		}
+		size++;
+	}
+	
+	public E getFirst() {
+		return head.element;
+	}
+	
+	public E getLast() {
+		return tail.element;
+	}
+	
+	public String toString() {
+		String str = "";
+		MyLinkedNode2<E> current = head;
+		while (current != null) {
+			str += current.element + " ";
+			current = current.next;
+		}
+		return str;
+	}
+	
+	public E getLargest() {
+		E largest = head.element;
+		MyLinkedNode2<E> current = head.next;
+		while (current != null) {
+			if (largest.compareTo(current.element) < 0) {
+				largest = current.element;
+			}
+			current = current.next;
+		}
+		return largest;
+	}
+}

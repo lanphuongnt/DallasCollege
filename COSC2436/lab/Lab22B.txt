@@ -1,0 +1,86 @@
+package lab22;
+
+import java.util.Random;
+
+/**
+ * Lab22B
+ * @author Phuong Nguyen
+ * This program will process a matrix of random numbers
+ */
+public class Lab22B {
+
+	public static void main(String[] args) {
+		Integer[][] arr2d = new Integer[4][4];
+		Random rand = new Random();
+		
+		// Fill array 2D
+		for (int i = 0 ; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				arr2d[i][j] = rand.nextInt(51);
+			}
+		}
+		
+		// Print array 2D
+		System.out.println("The original matrix:");
+		for (int i = 0 ; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				System.out.print(arr2d[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		// Call method
+		sortArray2D(arr2d);
+		System.out.println();
+		
+		// Print array 2D again
+		System.out.println("The sorted matrix:");
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				System.out.print(arr2d[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("The order of the sort routine is O(n^2)"
+				            + " because T(n) = (n-1) + c + (n-2) + c + ... + 2 + c + 1 + c = n(n-1)/2 + c(n-1)" 
+							+ " = n^2/2 - n/2 + c(n-1) = O(n^2)");
+
+	}
+	public static void sortArray2D(Integer[][] arr2d) {
+		// Convert to one-dimensional integer array
+		Integer[] arr = new Integer[16];
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				arr[4 * i + j] = arr2d[i][j];
+			}
+		}
+		
+		// Sort array
+		int smallest, index, temp;
+		int len = arr.length;
+		for (int i = 0; i < len - 1; i++) {
+			smallest = arr[i];
+			index = i;
+			for (int k = i + 1; k < len; k++) {
+				if (arr[k] < smallest) {
+					smallest = arr[k];
+					index = k;
+				}
+			}
+			
+			temp = arr[i];
+			arr[i] = arr[index];
+			arr[index] = temp;
+		}
+		
+	
+		// Convert to two-dimensional integer array
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				arr2d[i][j] = arr[4 * i + j];
+			}
+		}
+	}
+
+}

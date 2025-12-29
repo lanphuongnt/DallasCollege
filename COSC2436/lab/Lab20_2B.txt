@@ -1,0 +1,80 @@
+package lab20;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Stack;
+
+/**
+ * Lab20_2B
+ * @author Phuong Nguyen
+ * This program will print the stack of the book, do the read 800 pages challenge and print the remaining stack
+ */
+
+public class Lab20_2B {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		Stack<Book> books = new Stack<>();
+		File file = new File("Input20_2B.txt");
+		Scanner inFile = new Scanner(file);
+		while (inFile.hasNextLine()) {
+			String title = inFile.nextLine();
+			String author = inFile.nextLine();
+			int pages = inFile.nextInt();
+			books.push(new Book(title, author, pages));
+			if (inFile.hasNextLine()) {
+				inFile.nextLine();
+			}
+		}
+		
+		// Print stack
+		System.out.println("Original stack: ");
+		printStack(books);
+		System.out.println();
+		readChallenge(books);
+		System.out.println("Remaining stack: ");
+		printStack(books);
+	}
+	
+	public static void printStack(Stack<Book> stack) {
+		Stack<Book> clone = (Stack<Book>) stack.clone();
+		while (!clone.empty()) {
+			System.out.println(clone.pop() + " ");
+		}
+	}
+	
+	public static void readChallenge(Stack<Book> stack) {
+		System.out.println("Number of books:" + stack.size());
+		System.out.println("Books Read in Challenge: ");
+		
+		int total = 0;
+		while (!stack.empty() && total < 800) {
+			Book top = stack.pop();
+			System.out.println("Top book: " + top);
+			total += top.getPages();
+		}
+		System.out.println("Total pages: " + total);
+		System.out.println();
+	}
+}
+
+class Book {
+	private String title;
+	private String author;
+	private int pages;
+	
+	public Book(String _title, String _author, int _pages) {
+		title = _title;
+		author = _author;
+		pages = _pages;
+	}
+	public int getPages() {
+		return pages;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public String toString() {
+		return "Book - Title: " + title + "\tAuthor: " + author + "\tPages: " + pages;
+	}
+}

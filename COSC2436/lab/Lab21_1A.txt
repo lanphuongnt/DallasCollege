@@ -1,0 +1,65 @@
+package lab21;
+
+/**
+ * Lab21_1A
+ * @author Phuong Nguyen
+ * This program will create a set of grocery items and use set operations to see if recipes can be made from those items.
+ */
+
+import java.util.*;
+import java.io.*;
+
+public class Lab21_1A {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		File file1 = new File("Input21_1A1.txt");
+		File file2 = new File("Input21_1A2.txt");
+		File file3 = new File("Input21_1A3.txt");
+		
+		Scanner inFile1 = new Scanner(file1);
+		Scanner inFile2 = new Scanner(file2);
+		Scanner inFile3 = new Scanner(file3);
+		
+		HashSet<String> grocery = new HashSet<>();
+		
+		// Read data from file
+		while (inFile1.hasNextLine()) {
+			grocery.add(inFile1.nextLine());
+		}
+		
+		HashSet<String> firstRecipe = new HashSet<>();
+		while (inFile2.hasNextLine()) {
+			firstRecipe.add(inFile2.nextLine());
+		}
+		
+		HashSet<String> secondRecipe = new HashSet<>();
+		while (inFile3.hasNextLine()) {
+			secondRecipe.add(inFile3.nextLine());
+		}
+		System.out.println("-- First Recipe --");
+		checkRecipe(grocery, firstRecipe); // call the method with first recipe
+		System.out.println("-- Second Recipe --");
+		checkRecipe(grocery, secondRecipe); // call the method with second recipe
+		
+		System.out.println("-- Remaining grocecy --");
+		grocery.forEach(item -> System.out.println(item)); // print the remaining grocery
+	}
+	
+	public static void checkRecipe(HashSet<String> grocery, HashSet<String> recipe) {
+		if (grocery.containsAll(recipe)) {
+			System.out.println("The dish was made.");
+			System.out.println("The ingredients:");
+			recipe.forEach(i -> System.out.println(i));
+			grocery.removeAll(recipe);
+		}
+		else {
+			System.out.println("The dish cannot made.");
+			System.out.println("The missing ingredients:");
+			for (String temp : recipe) {
+				if (!grocery.contains(temp)) { // the grocery does not contain the ingredient
+					System.out.println(temp);
+				}
+			}
+		}
+	}
+}
